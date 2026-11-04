@@ -1,0 +1,248 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --cc-orange: #FF8A24;
+  --cc-coral: #FF6038;
+  --cc-pink: #FF087F;
+  --cc-deep-pink: #F50070;
+  --cc-ivory: #FFF9F6;
+  --cc-peach: #FFF0E9;
+  --cc-light-pink: #FFE5ED;
+  --cc-lavender: #F0E9FF;
+  --cc-dark: #111321;
+  --cc-dark-grey: #343644;
+  --cc-muted-grey: #727383;
+
+  --cc-gradient: linear-gradient(110deg, #FF8A24 0%, #FF6038 48%, #FF087F 100%);
+}
+
+@theme {
+  --font-heading: 'Space Grotesk', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-pixel: 'Press Start 2P', monospace;
+
+  --color-brand-orange: #FF8A24;
+  --color-brand-coral: #FF6038;
+  --color-brand-pink: #FF087F;
+  --color-brand-deep-pink: #F50070;
+  --color-brand-ivory: #FFF9F6;
+  --color-brand-peach: #FFF0E9;
+  --color-brand-light-pink: #FFE5ED;
+  --color-brand-lavender: #F0E9FF;
+  --color-brand-dark: #111321;
+  --color-brand-dark-grey: #343644;
+  --color-brand-muted-grey: #727383;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    background-color: var(--cc-ivory);
+    color: var(--cc-dark);
+  }
+
+  body {
+    background-color: var(--cc-ivory);
+    color: var(--cc-dark);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+    color: var(--cc-dark);
+  }
+}
+
+/* Brand Utilities */
+.bg-gradient-brand {
+  background: var(--cc-gradient);
+}
+
+.text-gradient-brand {
+  background: var(--cc-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
+/* Grid Pattern Background as seen in hero image.png */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 96, 56, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 96, 56, 0.07) 1px, transparent 1px);
+}
+
+/* Retro & Pixel Card Styling */
+.retro-card {
+  background-color: #FFFFFF;
+  border: 2px solid rgba(17, 19, 33, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(17, 19, 33, 0.06);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.retro-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 96, 56, 0.4);
+  box-shadow: 0 12px 30px -4px rgba(255, 96, 56, 0.15);
+}
+
+.retro-card-dark {
+  background-color: #111321;
+  color: #FFF9F6;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 30px rgba(17, 19, 33, 0.25);
+}
+
+/* Floating Animation */
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.2deg);
+  }
+}
+
+.animate-float {
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+.animate-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Multi-Layer Wave Continuous Organic Animations (Seamless 8s, 7s, 10s Loops) */
+@keyframes waveFlow1 {
+  0% {
+    transform: translateX(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-12%) scaleY(1.06);
+  }
+  100% {
+    transform: translateX(0) scaleY(1);
+  }
+}
+
+@keyframes waveFlow2 {
+  0% {
+    transform: translateX(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(10%) scaleY(1.10);
+  }
+  100% {
+    transform: translateX(0) scaleY(1);
+  }
+}
+
+@keyframes waveFlow3 {
+  0% {
+    transform: translateX(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-8%) scaleY(1.05);
+  }
+  100% {
+    transform: translateX(0) scaleY(1);
+  }
+}
+
+.animate-wave-bg {
+  animation: waveFlow1 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-wave-main {
+  animation: waveFlow2 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-wave-highlight {
+  animation: waveFlow3 10s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Orbiting Motion & Thrust Flame Pulse */
+@keyframes orbitEllipse {
+  0% {
+    transform: rotate(0deg) translateX(190px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(190px) rotate(-360deg);
+  }
+}
+
+.animate-orbit {
+  animation: orbitEllipse 14s linear infinite;
+  will-change: transform;
+}
+
+@keyframes thrustFlame {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.35) scaleX(1.15);
+  }
+}
+
+.animate-thrust {
+  animation: thrustFlame 0.4s ease-in-out infinite;
+}
+
+/* Infinite Marquee Track Animation */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-glow,
+  .animate-wave-bg,
+  .animate-wave-main,
+  .animate-wave-highlight,
+  .animate-orbit,
+  .animate-thrust,
+  .animate-marquee {
+    animation: none !important;
+  }
+}
