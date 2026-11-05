@@ -10,6 +10,7 @@ import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
 import { ServicesOverviewPage } from "./pages/ServicesOverviewPage";
 import { ServiceDetailPage } from "./pages/ServiceDetailPage";
+import { PerformanceMarketingPage } from "./pages/PerformanceMarketingPage";
 import { WorkOverviewPage } from "./pages/WorkOverviewPage";
 import { CaseStudyDetailPage } from "./pages/CaseStudyDetailPage";
 import { BlogsOverviewPage } from "./pages/BlogsOverviewPage";
@@ -39,6 +40,8 @@ export default function App() {
           {/* Services Architecture */}
           <Route path="/services/" element={<ServicesOverviewPage />} />
           <Route path="/services" element={<ServicesOverviewPage />} />
+          <Route path="/services/performance-marketing/" element={<PerformanceMarketingPage />} />
+          <Route path="/services/performance-marketing" element={<PerformanceMarketingPage />} />
           <Route path="/services/:slug/" element={<ServiceDetailPage />} />
           <Route path="/services/:slug" element={<ServiceDetailPage />} />
 

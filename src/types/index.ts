@@ -73,6 +73,10 @@ export interface LeadSubmission {
   businessName?: string;
   city?: string;
   serviceInterestedIn?: string;
+  websiteUrl?: string;
+  adBudget?: string;
+  preferredPlatform?: string;
+  businessObjectives?: string;
   message?: string;
   submittedAt?: string;
   sourceUrl?: string;
