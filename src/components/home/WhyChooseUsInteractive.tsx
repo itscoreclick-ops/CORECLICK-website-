@@ -251,17 +251,17 @@ export const WhyChooseUsInteractive: React.FC = () => {
             {/* Eyebrow Label */}
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#111321]/15 text-xs font-mono font-bold uppercase tracking-wider text-[#FF6038] shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#FF8A24]" />
-              <span>WHY CHOOSE CORECLICK</span>
+              <span>WHY CORECLICK</span>
             </div>
 
             {/* Expressive Headline */}
             <h2 className="font-heading font-extrabold text-3xl sm:text-5xl md:text-6xl text-[#111321] tracking-tight leading-[1.1]">
-              Built for <span className="text-gradient-brand">Ambitious Businesses</span> That Demand Results.
+              Not Just Another <span className="text-gradient-brand">Marketing Agency.</span>
             </h2>
 
             {/* Refined Supporting Copy */}
             <p className="text-base sm:text-lg text-[#343644] leading-relaxed font-normal">
-              Most marketing agencies focus on vanity numbers. We build connected acquisition systems designed to turn attention into enquiries, customers, and measurable business growth.
+              Strategy before spending. Transparent execution. Creative and performance working together. Campaigns strictly aligned with your actual business revenue objectives.
             </p>
 
             {/* ---------------- 2 INTERACTIVE STATISTICS CARDS ---------------- */}

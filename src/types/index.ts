@@ -34,25 +34,36 @@ export interface CaseStudy {
   quote?: { text: string; author: string; role: string };
 }
 
-export interface InsightArticle {
+export interface BlogPost {
   id: string;
   slug: string;
   title: string;
-  category: string;
+  category: "Digital Marketing" | "Google Ads" | "Meta Ads" | "SEO" | "Social Media" | "Branding" | "Website & CRO" | "Business Growth" | string;
   publishedDate: string;
   readTime: string;
   author: {
     name: string;
     role: string;
+    avatar?: string;
   };
   summary: string;
+  featuredImage: string;
+  imageAlt: string;
+  isFeatured?: boolean;
   content: {
+    id?: string;
     heading: string;
     body: string;
+    callout?: string;
+    bulletPoints?: string[];
   }[];
+  tableOfContents?: { id: string; title: string }[];
   keyTakeaways: string[];
   relatedSlugs: string[];
 }
+
+export type BlogArticle = BlogPost;
+export type InsightArticle = BlogPost;
 
 export interface LeadSubmission {
   id?: string;

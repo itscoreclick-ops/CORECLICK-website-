@@ -58,7 +58,7 @@ export const CONFIG = {
     { label: "About", href: "/about/" },
     { label: "Services", href: "/services/", hasDropdown: true },
     { label: "Work", href: "/work/" },
-    { label: "Blog", href: "/insights/" },
+    { label: "Blog", href: "/blogs/" },
   ],
 } as const;
 

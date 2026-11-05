@@ -1,40 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, ArrowRight, Sparkles } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowRight, Sparkles, MessageCircle } from "lucide-react";
 import { Logo } from "../common/Logo";
 import { CONFIG } from "../../config/siteConfig";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#111321] text-[#FFF7FA] relative overflow-hidden mt-16">
-      {/* Background Accent Glow */}
+    <footer className="bg-[#FFF0E9] text-[#11121D] relative overflow-hidden border-t-2 border-[#11121D]/10">
+      {/* Background Subtle Accent Glow */}
       <div
         aria-hidden="true"
-        className="absolute top-0 right-1/4 w-[600px] h-[300px] bg-gradient-brand opacity-15 blur-[120px] pointer-events-none rounded-full"
+        className="absolute top-0 right-1/4 w-[600px] h-[300px] bg-gradient-to-r from-[#FF8A24]/10 via-[#FF6038]/10 to-[#FF087F]/10 blur-[120px] pointer-events-none rounded-full"
       />
 
       {/* Pre-Footer Floating CTA Card */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-4 relative z-10">
-        <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="bg-white rounded-3xl p-8 md:p-12 border-2 border-[#11121D] shadow-[8px_8px_0px_0px_#11121D] relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#FF8A24] uppercase tracking-wider mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#FF6038] uppercase tracking-wider mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#FF8A24]" />
               <span>Click Smart. Grow Fast.</span>
             </div>
-            <h2 className="font-heading font-extrabold text-2xl md:text-3xl tracking-tight text-white">
+            <h2 className="font-heading font-extrabold text-2xl md:text-3xl tracking-tight text-[#11121D]">
               Ready to Accelerate Your Digital Growth?
             </h2>
-            <p className="text-[#D4CBD5] text-sm mt-1 max-w-xl font-light">
+            <p className="text-[#343644] text-sm mt-1 max-w-xl font-normal">
               Partner with Varanasi's premier digital growth agency. Strategic paid advertising,
               SEO, brand identities, and high-converting websites.
             </p>
           </div>
           <Link
             to="/contact/"
-            className="relative z-10 inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-brand text-white font-semibold text-sm shadow-xl hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all shrink-0"
+            className="relative z-10 inline-flex items-center gap-2 px-7 py-4 rounded-full bg-[#11121D] text-white font-extrabold text-sm shadow-xl hover:bg-black transition-all shrink-0 hover:scale-105"
           >
             <span>Start Your Project</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-[#FF8A24]" />
           </Link>
         </div>
       </div>
@@ -44,13 +44,14 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Col 1: Brand & Location */}
           <div className="lg:col-span-2 space-y-4">
-            <Logo variant="white" showTagline={true} />
-            <p className="text-[#D4CBD5] text-sm leading-relaxed max-w-sm pt-2">
+            <Logo variant="default" showTagline={true} />
+            <p className="text-[#343644] text-sm leading-relaxed max-w-sm pt-2 font-normal">
               CoreClick is a modern digital marketing and business growth agency headquartered in
               Varanasi, Uttar Pradesh. We engineer data-backed acquisition systems and brand
               identities that convert attention into sustainable revenue.
             </p>
-            <div className="space-y-2.5 pt-2 text-xs text-[#D4CBD5]">
+
+            <div className="space-y-2.5 pt-2 text-xs font-medium text-[#11121D]">
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-[#FF8A24] shrink-0" />
                 <span>{CONFIG.address}</span>
@@ -59,7 +60,7 @@ export const Footer: React.FC = () => {
                 <Phone className="w-4 h-4 text-[#FF6038] shrink-0" />
                 <a
                   href={`tel:${CONFIG.phone}`}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-[#FF6038] transition-colors font-bold"
                 >
                   Direct: {CONFIG.formattedPhone}
                 </a>
@@ -68,9 +69,20 @@ export const Footer: React.FC = () => {
                 <Mail className="w-4 h-4 text-[#FF087F] shrink-0" />
                 <a
                   href={`mailto:${CONFIG.email}`}
-                  className="hover:text-white transition-colors"
+                  className="hover:text-[#FF087F] transition-colors font-bold"
                 >
                   {CONFIG.email}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5 pt-1">
+                <MessageCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                <a
+                  href={`https://wa.me/91${CONFIG.whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-emerald-600 transition-colors font-bold text-emerald-700"
+                >
+                  WhatsApp: +91 {CONFIG.whatsapp}
                 </a>
               </div>
             </div>
@@ -78,37 +90,37 @@ export const Footer: React.FC = () => {
 
           {/* Col 2: Core Services */}
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 font-mono">
+            <h3 className="text-xs font-mono font-extrabold text-[#FF6038] uppercase tracking-wider mb-4">
               Growth Services
             </h3>
-            <ul className="space-y-2.5 text-xs text-[#D4CBD5] list-none p-0 m-0">
+            <ul className="space-y-2.5 text-xs text-[#343644] font-medium list-none p-0 m-0">
               <li>
-                <Link to="/services/performance-marketing/" className="hover:text-white transition-colors">
+                <Link to="/services/performance-marketing/" className="hover:text-[#FF6038] transition-colors">
                   Performance Marketing
                 </Link>
               </li>
               <li>
-                <Link to="/services/google-ads/" className="hover:text-white transition-colors">
+                <Link to="/services/google-ads/" className="hover:text-[#FF6038] transition-colors">
                   Google Ads & Search
                 </Link>
               </li>
               <li>
-                <Link to="/services/meta-ads/" className="hover:text-white transition-colors">
+                <Link to="/services/meta-ads/" className="hover:text-[#FF6038] transition-colors">
                   Meta Ads (FB & IG)
                 </Link>
               </li>
               <li>
-                <Link to="/services/seo/" className="hover:text-white transition-colors">
+                <Link to="/services/seo/" className="hover:text-[#FF6038] transition-colors">
                   Search Engine Optimization
                 </Link>
               </li>
               <li>
-                <Link to="/services/local-seo/" className="hover:text-white transition-colors">
+                <Link to="/services/local-seo/" className="hover:text-[#FF6038] transition-colors">
                   Local SEO & Google Maps
                 </Link>
               </li>
               <li>
-                <Link to="/services/lead-generation/" className="hover:text-white transition-colors">
+                <Link to="/services/lead-generation/" className="hover:text-[#FF6038] transition-colors">
                   Lead Generation Funnels
                 </Link>
               </li>
@@ -117,77 +129,77 @@ export const Footer: React.FC = () => {
 
           {/* Col 3: Brand & Tech */}
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 font-mono">
+            <h3 className="text-xs font-mono font-extrabold text-[#FF087F] uppercase tracking-wider mb-4">
               Creative & Tech
             </h3>
-            <ul className="space-y-2.5 text-xs text-[#D4CBD5] list-none p-0 m-0">
+            <ul className="space-y-2.5 text-xs text-[#343644] font-medium list-none p-0 m-0">
               <li>
-                <Link to="/services/website-development/" className="hover:text-white transition-colors">
+                <Link to="/services/website-development/" className="hover:text-[#FF087F] transition-colors">
                   Website Development
                 </Link>
               </li>
               <li>
-                <Link to="/services/landing-page-design/" className="hover:text-white transition-colors">
+                <Link to="/services/landing-page-design/" className="hover:text-[#FF087F] transition-colors">
                   Landing Page Design & CRO
                 </Link>
               </li>
               <li>
-                <Link to="/services/branding/" className="hover:text-white transition-colors">
+                <Link to="/services/branding/" className="hover:text-[#FF087F] transition-colors">
                   Branding & Visual Identity
                 </Link>
               </li>
               <li>
-                <Link to="/services/social-media-marketing/" className="hover:text-white transition-colors">
+                <Link to="/services/social-media-marketing/" className="hover:text-[#FF087F] transition-colors">
                   Social Media Marketing
                 </Link>
               </li>
               <li>
-                <Link to="/services/content-marketing/" className="hover:text-white transition-colors">
+                <Link to="/services/content-marketing/" className="hover:text-[#FF087F] transition-colors">
                   Content Marketing & Copy
                 </Link>
               </li>
               <li>
-                <Link to="/services/digital-marketing-strategy/" className="hover:text-white transition-colors">
+                <Link to="/services/digital-marketing-strategy/" className="hover:text-[#FF087F] transition-colors">
                   Growth Strategy Blueprints
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Agency & Resources */}
+          {/* Col 4: Agency & Legal */}
           <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4 font-mono">
-              Agency & Resources
+            <h3 className="text-xs font-mono font-extrabold text-[#11121D] uppercase tracking-wider mb-4">
+              About CoreClick
             </h3>
-            <ul className="space-y-2.5 text-xs text-[#D4CBD5] list-none p-0 m-0">
+            <ul className="space-y-2.5 text-xs text-[#343644] font-medium list-none p-0 m-0">
               <li>
-                <Link to="/about/" className="hover:text-white transition-colors">
-                  About CoreClick
+                <Link to="/about/" className="hover:text-[#FF6038] transition-colors">
+                  About Us & Story
                 </Link>
               </li>
               <li>
-                <Link to="/work/" className="hover:text-white transition-colors">
-                  Selected Work & Case Studies
+                <Link to="/services/" className="hover:text-[#FF6038] transition-colors">
+                  Capabilities & Services
                 </Link>
               </li>
               <li>
-                <Link to="/insights/" className="hover:text-white transition-colors">
-                  Insights & Playbooks
+                <Link to="/blogs/" className="hover:text-[#FF6038] transition-colors">
+                  Blogs & Growth Guides
                 </Link>
               </li>
               <li>
-                <Link to="/contact/" className="hover:text-white transition-colors">
+                <Link to="/contact/" className="hover:text-[#FF6038] transition-colors">
                   Contact & Consultation
                 </Link>
               </li>
               <li>
-                <Link to="/lp/local-business-growth/" className="hover:text-white transition-colors">
-                  Varanasi Local Growth Funnel
+                <Link to="/privacy-policy/" className="hover:text-[#FF6038] transition-colors">
+                  Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/lp/google-ads/" className="hover:text-white transition-colors">
-                  Google Ads Campaign Landing
+                <Link to="/terms-and-conditions/" className="hover:text-[#FF6038] transition-colors">
+                  Terms & Conditions
                 </Link>
               </li>
             </ul>
@@ -195,16 +207,15 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar: Copyright & Legal */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#D4CBD5]/70">
+        <div className="mt-12 pt-8 border-t-2 border-[#11121D]/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-[#727383]">
           <p>
-            © {new Date().getFullYear()} {CONFIG.businessName}. All rights reserved. Varanasi, Uttar
-            Pradesh, India.
+            © {new Date().getFullYear()} {CONFIG.businessName}. All rights reserved. Varanasi, Uttar Pradesh, India.
           </p>
           <div className="flex items-center gap-6">
-            <Link to="/privacy-policy/" className="hover:text-white transition-colors">
+            <Link to="/privacy-policy/" className="hover:text-[#11121D] transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/terms-and-conditions/" className="hover:text-white transition-colors">
+            <Link to="/terms-and-conditions/" className="hover:text-[#11121D] transition-colors">
               Terms & Conditions
             </Link>
           </div>

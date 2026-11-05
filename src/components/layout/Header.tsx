@@ -137,13 +137,13 @@ const INDUSTRIES_LIST = [
   { name: "Startups & Professional Services", desc: "Brand positioning & growth scale", slug: "startups" },
 ];
 
-const INSIGHTS_LIST = [
-  { name: "Marketing Insights", desc: "Deep dives on unit economics & ROAS", href: "/insights/" },
-  { name: "SEO Guides", desc: "Technical & local search strategies", href: "/insights/" },
-  { name: "Google Ads Guides", desc: "Search & PMax campaign playbooks", href: "/insights/" },
-  { name: "Social Media Tips", desc: "Short-form video reel retention", href: "/insights/" },
-  { name: "Case Studies", desc: "Verified growth stories & metrics", href: "/work/" },
-  { name: "Digital Growth Resources", desc: "Frameworks, checklists & playbooks", href: "/insights/" },
+const BLOGS_LIST = [
+  { name: "Digital Marketing Guide", desc: "Frameworks for scalable online growth", href: "/blogs/digital-marketing-guide/" },
+  { name: "Google Ads Playbook", desc: "High-intent search & PMax strategies", href: "/blogs/google-ads-for-small-business/" },
+  { name: "Local SEO Varanasi", desc: "Dominating Google Maps 3-pack", href: "/blogs/local-seo-varanasi/" },
+  { name: "Social Media Strategy", desc: "Reel retention & automated DM funnels", href: "/blogs/social-media-marketing-strategy/" },
+  { name: "Meta Ads ROAS Playbook", desc: "Scaling FB & IG campaigns", href: "/blogs/meta-ads-roas-playbook/" },
+  { name: "Browse All Blogs & Guides", desc: "Explore the full CoreClick Journal", href: "/blogs/" },
 ];
 
 export const Header: React.FC = () => {
@@ -211,7 +211,7 @@ export const Header: React.FC = () => {
         {/* Left: Prominent Official CoreClick Logo Lockup */}
         <Logo variant="default" showTagline={true} size="md" className="shrink-0" />
 
-        {/* Center: New Top Navigation Bar (Home, About, Services ▼, Industries ▼, Insights ▼, Contact) */}
+        {/* Center: New Top Navigation Bar (Home, About, Services ▼, Industries ▼, Blogs ▼, Contact) */}
         <nav
           aria-label="Main Navigation"
           className="hidden lg:flex items-center gap-7 text-[16px] xl:text-[17px] font-semibold text-[#111321]"
@@ -404,52 +404,55 @@ export const Header: React.FC = () => {
             )}
           </div>
 
-          {/* Insights ▼ Dropdown */}
+          {/* Blogs ▼ Dropdown */}
           <div
             className="relative"
-            onMouseEnter={() => setActiveDropdown("insights")}
+            onMouseEnter={() => setActiveDropdown("blogs")}
             onMouseLeave={() => setActiveDropdown(null)}
           >
             <div className="flex items-center gap-1 cursor-pointer py-1">
               <Link
-                to="/insights/"
+                to="/blogs/"
                 className={`whitespace-nowrap transition-colors hover:text-[#FF6038] relative ${
-                  isActive("/insights") ? "text-[#111321] font-bold" : "text-[#343644]"
+                  isActive("/blogs") ? "text-[#111321] font-bold" : "text-[#343644]"
                 }`}
               >
-                Insights
+                Blogs
+                {isActive("/blogs") && (
+                  <span className="absolute -bottom-1.5 left-0 right-0 h-[3px] bg-gradient-brand rounded-full" />
+                )}
               </Link>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 text-[#343644] ${
-                  activeDropdown === "insights" ? "rotate-180 text-[#FF6038]" : ""
+                  activeDropdown === "blogs" ? "rotate-180 text-[#FF6038]" : ""
                 }`}
               />
             </div>
 
-            {/* Insights Dropdown Panel */}
-            {activeDropdown === "insights" && (
+            {/* Blogs Dropdown Panel */}
+            {activeDropdown === "blogs" && (
               <div className="absolute top-full -left-20 w-[420px] mt-2 bg-[#FFF9F6] rounded-3xl shadow-2xl border-2 border-[#111321]/15 p-5 animate-fadeIn z-50 text-[#111321]">
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#111321]/10">
                   <span className="font-mono text-xs font-extrabold text-[#FF087F] uppercase tracking-wider flex items-center gap-1.5">
                     <BookOpen className="w-4 h-4" />
-                    KNOWLEDGE & RESOURCES
+                    THE CORECLICK JOURNAL
                   </span>
-                  <Link to="/insights/" className="text-xs font-bold text-[#111321] hover:text-[#FF087F]">
-                    Browse All Articles ↗
+                  <Link to="/blogs/" className="text-xs font-bold text-[#111321] hover:text-[#FF087F]">
+                    Browse All Blogs ↗
                   </Link>
                 </div>
 
                 <div className="space-y-1.5">
-                  {INSIGHTS_LIST.map((ins, idx) => (
+                  {BLOGS_LIST.map((item, idx) => (
                     <Link
                       key={idx}
-                      to={ins.href}
+                      to={item.href}
                       className="group block p-2 rounded-xl hover:bg-[#FFE5ED] transition-all"
                     >
                       <div className="text-xs font-bold text-[#111321] group-hover:text-[#FF087F]">
-                        {ins.name}
+                        {item.name}
                       </div>
-                      <div className="text-[11px] text-[#727383]">{ins.desc}</div>
+                      <div className="text-[11px] text-[#727383]">{item.desc}</div>
                     </Link>
                   ))}
                 </div>
@@ -590,27 +593,27 @@ export const Header: React.FC = () => {
               )}
             </div>
 
-            {/* Insights Accordion */}
+            {/* Blogs Accordion */}
             <div>
               <button
-                onClick={() => setMobileAccordion(mobileAccordion === "insights" ? null : "insights")}
+                onClick={() => setMobileAccordion(mobileAccordion === "blogs" ? null : "blogs")}
                 className="w-full px-4 py-3 rounded-2xl text-base font-extrabold text-left flex items-center justify-between text-[#111321] hover:bg-[#FFF0E9]"
               >
-                <span>Insights</span>
+                <span>Blogs</span>
                 <span className="text-xs font-bold text-[#FF6038]">
-                  {mobileAccordion === "insights" ? "[-] " : "[+]"}
+                  {mobileAccordion === "blogs" ? "[-] " : "[+]"}
                 </span>
               </button>
 
-              {mobileAccordion === "insights" && (
+              {mobileAccordion === "blogs" && (
                 <div className="pl-6 space-y-1.5 py-2 border-l-2 border-[#FF6038]/30 ml-4">
-                  {INSIGHTS_LIST.map((ins, idx) => (
+                  {BLOGS_LIST.map((item, idx) => (
                     <Link
                       key={idx}
-                      to={ins.href}
+                      to={item.href}
                       className="block py-1 text-xs font-medium text-[#343644] hover:text-[#FF087F]"
                     >
-                      {ins.name}
+                      {item.name}
                     </Link>
                   ))}
                 </div>

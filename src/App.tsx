@@ -12,14 +12,15 @@ import { ServicesOverviewPage } from "./pages/ServicesOverviewPage";
 import { ServiceDetailPage } from "./pages/ServiceDetailPage";
 import { WorkOverviewPage } from "./pages/WorkOverviewPage";
 import { CaseStudyDetailPage } from "./pages/CaseStudyDetailPage";
-import { InsightsOverviewPage } from "./pages/InsightsOverviewPage";
-import { InsightDetailPage } from "./pages/InsightDetailPage";
+import { BlogsOverviewPage } from "./pages/BlogsOverviewPage";
+import { BlogDetailPage } from "./pages/BlogDetailPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ThankYouPage } from "./pages/ThankYouPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { AdLandingPage } from "./pages/landing/AdLandingPage";
+import { Navigate } from "react-router-dom";
 
 export default function App() {
   return (
@@ -47,11 +48,17 @@ export default function App() {
           <Route path="/work/:slug/" element={<CaseStudyDetailPage />} />
           <Route path="/work/:slug" element={<CaseStudyDetailPage />} />
 
-          {/* Insights & Articles */}
-          <Route path="/insights/" element={<InsightsOverviewPage />} />
-          <Route path="/insights" element={<InsightsOverviewPage />} />
-          <Route path="/insights/:slug/" element={<InsightDetailPage />} />
-          <Route path="/insights/:slug" element={<InsightDetailPage />} />
+          {/* CoreClick Journal & Blogs */}
+          <Route path="/blogs/" element={<BlogsOverviewPage />} />
+          <Route path="/blogs" element={<BlogsOverviewPage />} />
+          <Route path="/blogs/:slug/" element={<BlogDetailPage />} />
+          <Route path="/blogs/:slug" element={<BlogDetailPage />} />
+
+          {/* Backward Compatibility Redirects from /insights */}
+          <Route path="/insights/" element={<Navigate to="/blogs/" replace />} />
+          <Route path="/insights" element={<Navigate to="/blogs/" replace />} />
+          <Route path="/insights/:slug/" element={<Navigate to="/blogs/" replace />} />
+          <Route path="/insights/:slug" element={<Navigate to="/blogs/" replace />} />
 
           {/* Contact & Conversions */}
           <Route path="/contact/" element={<ContactPage />} />
