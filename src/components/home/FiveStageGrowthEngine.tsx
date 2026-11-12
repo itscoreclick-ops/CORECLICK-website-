@@ -283,7 +283,11 @@ export const FiveStageGrowthEngine: React.FC = () => {
           {/* Central CoreClick Cursor Logo Symbol Watermark */}
           <div className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-white/80 border-2 border-[#111321]/15 backdrop-blur-xl items-center justify-center pointer-events-none z-10 shadow-xl">
             <img
-              src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+              src="/assets/aistudio/Gradient_C_Cursor_Logo_400.webp"
+              width="96"
+              height="96"
+              loading="lazy"
+              decoding="async"
               alt="CoreClick Brand Symbol"
               className="w-24 h-24 object-contain animate-pulse"
             />

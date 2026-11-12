@@ -116,7 +116,11 @@ export const HomeFaqSection: React.FC = () => {
               {/* Decorative CoreClick Brand Logo Mark */}
               <div className="p-4 rounded-2xl bg-[#FFF0E9] border border-[#FF6038]/20 flex items-center gap-4">
                 <img
-                  src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+                  src="/assets/aistudio/Gradient_C_Cursor_Logo_400.webp"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                  decoding="async"
                   alt="CoreClick Symbol"
                   className="w-12 h-12 object-contain"
                 />

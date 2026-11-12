@@ -47,7 +47,7 @@ const SHOWCASE_ITEMS = [
     category: "01 — REELS & SHORT-FORM VIDEOS",
     title: "Viral 3-Second Hook Video Reels",
     desc: "Vertical 9:16 short-form video content with engaging hooks, kinetic typography, and lifestyle pacing that stops the scroll.",
-    image: "/src/assets/images/social_reel_cover_1793864185629.jpg",
+    image: "/src/assets/images/social_reel_cover_1793864185629.webp",
     metrics: "48.2K+ Views · 14.8% Save Rate",
     aspect: "tall",
   },
@@ -56,7 +56,7 @@ const SHOWCASE_ITEMS = [
     category: "02 — CAROUSEL DESIGNS",
     title: "Editorial Multi-Slide Brand Storytelling",
     desc: "Multi-slide educational and product carousels designed to drive bookmark saves, long view durations, and algorithm favor.",
-    image: "/src/assets/images/social_carousel_design_1793864186322.jpg",
+    image: "/src/assets/images/social_carousel_design_1793864186322.webp",
     metrics: "5-Slide Deck · 2.4K Bookmarks",
     aspect: "wide",
   },
@@ -65,7 +65,7 @@ const SHOWCASE_ITEMS = [
     category: "03 — BRAND IDENTITY & SOCIAL TEMPLATES",
     title: "Consistent Visual Social Design Systems",
     desc: "Cohesive Instagram grids, custom story templates, and typographic standards that make your brand instantly recognizable.",
-    image: "/src/assets/images/social_brand_identity_1793864187595.jpg",
+    image: "/src/assets/images/social_brand_identity_1793864187595.webp",
     metrics: "Unified Palette · Bespoke Grid",
     aspect: "wide",
   },
@@ -74,7 +74,7 @@ const SHOWCASE_ITEMS = [
     category: "04 — PROMOTIONAL CAMPAIGNS",
     title: "Seasonal Promotions & Product Drops",
     desc: "High-impact social advertisement posters and promotional announcements engineered to convert followers into paying clients.",
-    image: "/src/assets/images/social_campaign_creative_1793864187022.jpg",
+    image: "/src/assets/images/social_campaign_creative_1793864187022.webp",
     metrics: "Direct Response · High CTR",
     aspect: "tall",
   },
@@ -462,8 +462,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
                   {/* Left: Vertical Reel Frame Mockup */}
                   <div className="col-span-5 relative rounded-2xl overflow-hidden border-2 border-[#11121D] bg-[#11121D] shadow-sm group">
                     <img
-                      src="/src/assets/images/social_reel_cover_1793864185629.jpg"
+                      src="/src/assets/images/social_reel_cover_1793864185629.webp"
                       alt="Artisan fashion reel frame mockup"
+                      loading="lazy"
+                      decoding="async"
+                      width="240"
+                      height="256"
                       className="w-full h-64 object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-between p-2.5 text-white">
@@ -494,8 +498,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
                       </div>
                       <div className="rounded-xl overflow-hidden border border-[#11121D]/10 h-24 bg-white relative">
                         <img
-                          src="/src/assets/images/social_carousel_design_1793864186322.jpg"
+                          src="/src/assets/images/social_carousel_design_1793864186322.webp"
                           alt="Instagram carousel design preview"
+                          loading="lazy"
+                          decoding="async"
+                          width="320"
+                          height="96"
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -608,8 +616,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
             <div className="lg:col-span-5 bg-white rounded-3xl border-2 border-[#11121D] p-6 shadow-[8px_8px_0px_0px_#11121D] hover:shadow-[12px_12px_0px_0px_#FF087F] hover:border-[#FF087F] transition-all group">
               <div className="relative rounded-2xl overflow-hidden mb-5 bg-[#11121D]">
                 <img
-                  src="/src/assets/images/social_reel_cover_1793864185629.jpg"
+                  src="/src/assets/images/social_reel_cover_1793864185629.webp"
                   alt="High-retention reel video showcase"
+                  loading="lazy"
+                  decoding="async"
+                  width="480"
+                  height="384"
                   className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-500 opacity-95"
                 />
                 <div className="absolute top-3 left-3 bg-[#11121D]/80 backdrop-blur-xs text-white px-2.5 py-1 rounded-full text-[10px] font-mono font-bold">
@@ -634,8 +646,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
               <div className="bg-white rounded-3xl border-2 border-[#11121D] p-6 shadow-[8px_8px_0px_0px_#11121D] hover:shadow-[12px_12px_0px_0px_#FF6038] hover:border-[#FF6038] transition-all group">
                 <div className="relative rounded-2xl overflow-hidden mb-5 bg-[#FFF0E9]">
                   <img
-                    src="/src/assets/images/social_carousel_design_1793864186322.jpg"
+                    src="/src/assets/images/social_carousel_design_1793864186322.webp"
                     alt="Multi-slide carousel design showcase"
+                    loading="lazy"
+                    decoding="async"
+                    width="640"
+                    height="256"
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3 bg-[#11121D]/80 backdrop-blur-xs text-white px-2.5 py-1 rounded-full text-[10px] font-mono font-bold">
@@ -660,8 +676,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
                 <div className="bg-white rounded-3xl border-2 border-[#11121D] p-5 shadow-[6px_6px_0px_0px_#11121D] hover:border-[#FF087F] transition-all group">
                   <div className="relative rounded-2xl overflow-hidden mb-4 bg-[#FFE5ED]">
                     <img
-                      src="/src/assets/images/social_brand_identity_1793864187595.jpg"
+                      src="/src/assets/images/social_brand_identity_1793864187595.webp"
                       alt="Brand social media visual system"
+                      loading="lazy"
+                      decoding="async"
+                      width="300"
+                      height="176"
                       className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
@@ -680,8 +700,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
                 <div className="bg-white rounded-3xl border-2 border-[#11121D] p-5 shadow-[6px_6px_0px_0px_#11121D] hover:border-[#FF8A24] transition-all group">
                   <div className="relative rounded-2xl overflow-hidden mb-4 bg-[#FFF0E9]">
                     <img
-                      src="/src/assets/images/social_campaign_creative_1793864187022.jpg"
+                      src="/src/assets/images/social_campaign_creative_1793864187022.webp"
                       alt="Promotional campaign creative poster"
+                      loading="lazy"
+                      decoding="async"
+                      width="300"
+                      height="176"
                       className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
@@ -1155,8 +1179,12 @@ export const SocialMediaMarketingPage: React.FC = () => {
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden border border-[#11121D]/15">
                   <img
-                    src="/src/assets/images/hero_creative_art_composition_1793702290603.jpg"
+                    src="/src/assets/images/hero_creative_art_composition_1793702290603.webp"
                     alt="Creative studio art direction composition"
+                    loading="lazy"
+                    decoding="async"
+                    width="600"
+                    height="208"
                     className="w-full h-52 object-cover"
                   />
                 </div>

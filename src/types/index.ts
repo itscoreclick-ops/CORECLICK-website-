@@ -91,6 +91,8 @@ export interface LeadSubmission {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  honeypot?: string;
+  _hp?: string;
 }
 
 export interface LeadResponse {

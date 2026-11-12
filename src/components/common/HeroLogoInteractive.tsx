@@ -50,7 +50,14 @@ export const HeroLogoInteractive: React.FC = () => {
       {/* 4. Main Enlarged Standalone CoreClick Logo Symbol Asset (Desktop 420–480px) */}
       <div className="relative w-[260px] sm:w-[360px] md:w-[420px] lg:w-[460px] aspect-square flex items-center justify-center p-2 z-10 transition-transform duration-500">
         <img
-          src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+          src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp"
+          srcSet="/assets/aistudio/Gradient_C_Cursor_Logo_400.webp 400w, /assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp 800w"
+          sizes="(max-width: 640px) 260px, (max-width: 1024px) 420px, 460px"
+          width="460"
+          height="460"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           alt="Official CoreClick Brand Symbol"
           className={`w-full h-full object-contain filter drop-shadow-2xl transition-all duration-500 ${
             activeLaunch ? "scale-102 filter drop-shadow-[0_20px_35px_rgba(255,96,56,0.35)]" : "animate-float"

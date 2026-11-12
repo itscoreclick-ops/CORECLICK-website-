@@ -369,6 +369,43 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             </select>
           </div>
 
+          {/* Budget / Planned Investment */}
+          <div>
+            <label
+              htmlFor="budgetRange"
+              className="block text-xs font-extrabold text-[#111321] uppercase tracking-wider mb-1.5"
+            >
+              Estimated Monthly Budget / Investment
+            </label>
+            <select
+              id="budgetRange"
+              name="budgetRange"
+              value={formData.budgetRange || ""}
+              onChange={handleChange}
+              onFocus={() => setActiveStep(3)}
+              className="w-full px-4 py-3 rounded-xl text-sm border border-[#111321]/20 bg-[#FFF9F6] text-[#111321] hover:border-[#111321] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6038]"
+            >
+              <option value="">Select budget range (or Flexible)</option>
+              <option value="Under ₹25,000 / mo">Under ₹25,000 / mo (Starter / Local)</option>
+              <option value="₹25,000 – ₹50,000 / mo">₹25,000 – ₹50,000 / mo (Growth)</option>
+              <option value="₹50,000 – ₹1,00,000 / mo">₹50,000 – ₹1,00,000 / mo (Scale)</option>
+              <option value="₹1,00,000 – ₹3,00,000 / mo">₹1,00,000 – ₹3,00,000 / mo (High Volume)</option>
+              <option value="₹3,00,000+ / mo">₹3,00,000+ / mo (Enterprise / Pan-India)</option>
+            </select>
+          </div>
+
+          {/* Anti-Spam Honeypot Field */}
+          <div style={{ display: "none" }} aria-hidden="true">
+            <input
+              type="text"
+              name="website_hp"
+              tabIndex={-1}
+              autoComplete="off"
+              value={formData.honeypot || ""}
+              onChange={(e) => setFormData((prev) => ({ ...prev, honeypot: e.target.value }))}
+            />
+          </div>
+
           {/* Project Details Message */}
           <div>
             <label

@@ -52,7 +52,11 @@ export const ServicesOverviewPage: React.FC = () => {
           className="absolute -right-20 top-1/2 -translate-y-1/2 w-96 md:w-[500px] opacity-[0.04] pointer-events-none select-none"
         >
           <img
-            src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+            src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp"
+            width="500"
+            height="333"
+            loading="lazy"
+            decoding="async"
             alt=""
             className="w-full h-auto"
           />

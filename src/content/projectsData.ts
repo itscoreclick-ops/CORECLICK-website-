@@ -10,7 +10,7 @@ export const PROJECTS_DATA: CaseStudy[] = [
     serviceCategory: "Local Business Growth",
     isConcept: false,
     summary: "Engineered a local discovery engine and Google Maps optimization strategy for a Varanasi-based handloom studio, driving genuine foot-traffic and high-value bridal inquiries.",
-    image: "/src/assets/images/work_local_business_1793700735467.jpg",
+    image: "/src/assets/images/work_local_business_1793700735467.webp",
     imageAlt: "Boutique handloom studio in Varanasi with customers exploring fine textiles and local digital discovery on smartphone",
     metrics: [
       { value: "+185%", label: "Google Maps Phone Calls", timeframe: "Across 4 Months" },
@@ -45,7 +45,7 @@ export const PROJECTS_DATA: CaseStudy[] = [
     serviceCategory: "Performance Marketing",
     isConcept: false,
     summary: "Architected a full-funnel Meta Ads and creative testing workflow that scaled monthly sales while maintaining profitable return on ad spend.",
-    image: "/src/assets/images/work_performance_ads_1793700731377.jpg",
+    image: "/src/assets/images/work_performance_ads_1793700731377.webp",
     imageAlt: "Modern digital marketing performance dashboard showing ROAS and campaign metrics on laptop and smartphone",
     metrics: [
       { value: "4.8x", label: "Blended Return on Ad Spend (ROAS)", timeframe: "Over 90 Days" },
@@ -80,7 +80,7 @@ export const PROJECTS_DATA: CaseStudy[] = [
     serviceCategory: "Website Development",
     isConcept: true,
     summary: "A conceptual redesign of an enterprise B2B logistics platform, focusing on sub-second page performance, interactive rate calculators, and high-intent RFQ lead funnels.",
-    image: "/src/assets/images/work_web_development_1793700732422.jpg",
+    image: "/src/assets/images/work_web_development_1793700732422.webp",
     imageAlt: "Responsive modern web application displayed on ultra-thin laptop and tablet with contemporary UI/UX layout",
     metrics: [
       { value: "< 1.1s", label: "Mobile Page Load Speed", timeframe: "99th Percentile" },
@@ -110,7 +110,7 @@ export const PROJECTS_DATA: CaseStudy[] = [
     serviceCategory: "Branding",
     isConcept: true,
     summary: "A conceptual brand identity system blending timeless spiritual wellness iconography with modern clinical elegance for high-end holistic practices.",
-    image: "/src/assets/images/work_brand_identity_1793700731186.jpg",
+    image: "/src/assets/images/work_brand_identity_1793700731186.webp",
     imageAlt: "Sophisticated brand identity mockup spread on tactile paper with business cards and minimalist typography samples",
     metrics: [
       { value: "100%", label: "Vector Master Assets Delivered", timeframe: "SVG, AI, PDF" },

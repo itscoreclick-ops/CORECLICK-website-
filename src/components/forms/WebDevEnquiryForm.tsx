@@ -303,6 +303,18 @@ export const WebDevEnquiryForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} noValidate>
+        {/* Anti-Spam Honeypot Field */}
+        <div style={{ display: "none" }} aria-hidden="true">
+          <input
+            type="text"
+            name="website_hp"
+            tabIndex={-1}
+            autoComplete="off"
+            value={formData.honeypot || ""}
+            onChange={(e) => setFormData((prev) => ({ ...prev, honeypot: e.target.value }))}
+          />
+        </div>
+
         {/* STEP 1: YOUR DETAILS */}
         {activeStep === 1 && (
           <div className="space-y-6">

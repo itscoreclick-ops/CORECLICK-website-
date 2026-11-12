@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const LOGO_ASSET_SRC = "/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png";
+export const LOGO_ASSET_SRC = "/assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp";
+export const LOGO_ASSET_SRC_FALLBACK = "/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png";
 
 interface LogoProps {
   variant?: "default" | "light" | "white" | "dark";
@@ -28,12 +29,21 @@ export const Logo: React.FC<LogoProps> = ({
     xl: "w-24 h-24 sm:w-28 sm:h-28",
   };
 
+  const pixelDimensions = {
+    sm: { width: 36, height: 36 },
+    md: { width: 56, height: 56 },
+    lg: { width: 80, height: 80 },
+    xl: { width: 112, height: 112 },
+  };
+
   const textSizes = {
     sm: "text-xl",
     md: "text-2xl sm:text-3xl font-black",
     lg: "text-3xl sm:text-4xl font-black",
     xl: "text-4xl sm:text-5xl font-black",
   };
+
+  const dims = pixelDimensions[size];
 
   return (
     <Link
@@ -45,6 +55,12 @@ export const Logo: React.FC<LogoProps> = ({
       <div className={`relative shrink-0 flex items-center justify-center ${imgSizeClasses[size]}`}>
         <img
           src={LOGO_ASSET_SRC}
+          srcSet="/assets/aistudio/Gradient_C_Cursor_Logo_400.webp 1x, /assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp 2x"
+          width={dims.width}
+          height={dims.height}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           alt="CoreClick Official Logo Symbol"
           className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 filter drop-shadow-md"
         />

@@ -1,11 +1,19 @@
+import 'dotenv/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig, Plugin } from 'vite';
+import { sendLeadNotificationEmail, NOTIFICATION_RECIPIENT } from './src/server/emailNotification.ts';
+import { LeadSubmission } from './src/types/index.ts';
 
-// Native Vite Connect middleware to handle /api/leads with real server-side validation
+// Native Vite Connect middleware to handle /api/leads with real server-side validation & email notifications
 function leadsApiPlugin(): Plugin {
-  const inMemoryLeads: Array<Record<string, unknown>> = [];
+  interface StoredLead extends LeadSubmission {
+    leadId: string;
+    receivedAt: string;
+    serverStatus?: string;
+  }
+  const inMemoryLeads: StoredLead[] = [];
 
   return {
     name: 'leads-api-handler',
@@ -16,9 +24,24 @@ function leadsApiPlugin(): Plugin {
           req.on('data', (chunk) => {
             body += chunk;
           });
-          req.on('end', () => {
+          req.on('end', async () => {
             try {
               const data = JSON.parse(body || '{}');
+
+              // 1. Anti-Spam Honeypot Check
+              if (data.honeypot || data._hp || data.website_hp) {
+                console.warn('[Vite Dev Lead Engine] Spam bot detected via honeypot. Discarding silently.');
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(
+                  JSON.stringify({
+                    success: true,
+                    leadId: `CC-BOT-${Date.now().toString(36).toUpperCase()}`,
+                    message: 'Thank you! Your enquiry has been received.',
+                  })
+                );
+                return;
+              }
+
               const errors: Record<string, string> = {};
 
               // Server-side validation
@@ -32,7 +55,7 @@ function leadsApiPlugin(): Plugin {
                 errors.phone = 'Valid 10-digit Indian phone number required (e.g. 8707414150).';
               }
 
-              if (data.email && typeof data.email === 'string') {
+              if (data.email && typeof data.email === 'string' && data.email.trim().length > 0) {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(data.email.trim())) {
                   errors.email = 'Please provide a valid email format.';
@@ -51,17 +74,54 @@ function leadsApiPlugin(): Plugin {
                 return;
               }
 
+              // 2. Duplicate submission protection (30s window)
+              const now = Date.now();
+              const isDuplicate = inMemoryLeads.some((lead) => {
+                const samePhone = lead.phone === cleanPhone;
+                const sameEmail =
+                  data.email && lead.email && lead.email.toLowerCase() === data.email.trim().toLowerCase();
+                const timeDiff = now - new Date(lead.receivedAt).getTime();
+                return (samePhone || sameEmail) && timeDiff < 30000;
+              });
+
+              if (isDuplicate) {
+                res.writeHead(429, { 'Content-Type': 'application/json' });
+                res.end(
+                  JSON.stringify({
+                    success: false,
+                    message: 'This enquiry has already been received. Our team will contact you shortly.',
+                  })
+                );
+                return;
+              }
+
               // Server-side lead record with ID and timestamp
               const leadId = `CC-${Date.now().toString(36).toUpperCase()}-${Math.floor(
                 100 + Math.random() * 900
               )}`;
 
-              const leadRecord = {
+              const leadRecord: StoredLead = {
+                id: leadId,
                 leadId,
                 ...data,
+                phone: cleanPhone,
                 receivedAt: new Date().toISOString(),
                 serverStatus: 'CONFIRMED_QUEUED',
               };
+
+              // 3. Automated Email Notification
+              let emailNotificationStatus = 'SIMULATED';
+              try {
+                const emailResult = await sendLeadNotificationEmail(leadRecord);
+                emailNotificationStatus = emailResult.success
+                  ? emailResult.simulated
+                    ? 'SIMULATED'
+                    : 'SENT'
+                  : 'FAILED';
+              } catch (emailErr) {
+                console.error('[Dev Leads API] Email dispatch error:', emailErr);
+                emailNotificationStatus = 'ERROR';
+              }
 
               inMemoryLeads.unshift(leadRecord);
 
@@ -71,6 +131,10 @@ function leadsApiPlugin(): Plugin {
                   success: true,
                   leadId,
                   message: 'Enquiry confirmed. CoreClick strategists will reach out to you within 24 hours.',
+                  emailNotification: {
+                    recipient: NOTIFICATION_RECIPIENT,
+                    status: emailNotificationStatus,
+                  },
                 })
               );
             } catch {
@@ -84,6 +148,7 @@ function leadsApiPlugin(): Plugin {
             JSON.stringify({
               status: 'operational',
               service: 'CoreClick Lead Ingestion Gateway',
+              recipient: NOTIFICATION_RECIPIENT,
               totalLeadsReceived: inMemoryLeads.length,
             })
           );
@@ -97,11 +162,41 @@ function leadsApiPlugin(): Plugin {
 }
 
 export default defineConfig(() => {
+  const rootDir = typeof import.meta.dirname !== 'undefined' ? import.meta.dirname : process.cwd();
+
   return {
     plugins: [react(), tailwindcss(), leadsApiPlugin()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(rootDir, '.'),
+      },
+    },
+    build: {
+      target: 'es2020',
+      minify: 'esbuild',
+      cssMinify: true,
+      sourcemap: false,
+      chunkSizeWarningLimit: 600,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (
+                id.includes('react') ||
+                id.includes('react-dom') ||
+                id.includes('react-router-dom')
+              ) {
+                return 'vendor-react';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
+              }
+              if (id.includes('motion')) {
+                return 'vendor-motion';
+              }
+            }
+          },
+        },
       },
     },
     server: {

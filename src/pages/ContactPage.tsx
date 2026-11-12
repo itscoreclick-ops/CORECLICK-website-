@@ -35,7 +35,11 @@ export const ContactPage: React.FC = () => {
           className="absolute -right-20 top-1/2 -translate-y-1/2 w-80 md:w-[420px] opacity-[0.04] pointer-events-none select-none"
         >
           <img
-            src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+            src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp"
+            width="420"
+            height="280"
+            loading="lazy"
+            decoding="async"
             alt=""
             className="w-full h-auto"
           />

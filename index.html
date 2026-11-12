@@ -28,12 +28,34 @@
       content="Click Smart. Grow Fast. Strategic digital marketing, performance ads, SEO, branding, and high-converting websites for growing businesses."
     />
 
-    <!-- Google Fonts: Space Grotesk, Manrope, Inter, Press Start 2P -->
+    <!-- Google Fonts Optimized (Non-render-blocking with font-display: swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Press+Start+2P&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Space+Grotesk:wght@600;700&display=swap"
+    />
+    <link
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Space+Grotesk:wght@600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Space+Grotesk:wght@600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Preload Critical Above-The-Fold Brand Assets -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.webp"
+      type="image/webp"
+      fetchpriority="high"
     />
 
     <!-- Schema.org Structured Data -->

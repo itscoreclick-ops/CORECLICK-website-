@@ -129,7 +129,11 @@ export const AboutPage: React.FC = () => {
                 <div className="my-auto relative flex items-center justify-center">
                   <div className="w-40 h-40 rounded-full bg-white border-2 border-[#11121D]/15 shadow-xl flex items-center justify-center relative group-hover:scale-110 transition-transform duration-500">
                     <img
-                      src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+                      src="/assets/aistudio/Gradient_C_Cursor_Logo_400.webp"
+                      width="96"
+                      height="96"
+                      loading="lazy"
+                      decoding="async"
                       alt="CoreClick Symbol"
                       className="w-24 h-24 object-contain"
                     />
@@ -385,7 +389,11 @@ export const AboutPage: React.FC = () => {
             {/* Center Brand Artwork */}
             <div className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-[#FFF0E9] border-2 border-[#11121D]/20 items-center justify-center pointer-events-none z-10 shadow-xl">
               <img
-                src="/assets/aistudio/Gradient_C_Cursor_Logo_transparent.png"
+                src="/assets/aistudio/Gradient_C_Cursor_Logo_400.webp"
+                width="80"
+                height="80"
+                loading="lazy"
+                decoding="async"
                 alt="CoreClick Logo"
                 className="w-20 h-20 object-contain"
               />
