@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { LeadSubmission } from '../types';
+import { LeadSubmission } from '../types/index.ts';
 
 export const NOTIFICATION_RECIPIENT = process.env.NOTIFICATION_EMAIL || 'itscoreclick@gmail.com';
 export const DEFAULT_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'CoreClick Leads <onboarding@resend.dev>';
