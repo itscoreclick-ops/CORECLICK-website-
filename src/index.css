@@ -63,8 +63,11 @@
 
 .text-gradient-brand {
   background: var(--cc-gradient);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline;
 }
 
 .font-pixel {

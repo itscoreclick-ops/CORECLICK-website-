@@ -14,10 +14,10 @@ interface BreadcrumbsProps {
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = "" }) => {
   return (
-    <nav aria-label="Breadcrumb" className={`flex items-center text-xs text-[#D4CBD5]/80 ${className}`}>
+    <nav aria-label="Breadcrumb" className={`flex items-center text-xs text-[#73778A] ${className}`}>
       <ol className="flex items-center flex-wrap gap-1.5 list-none p-0 m-0">
         <li>
-          <Link to="/" className="hover:text-white transition-colors">
+          <Link to="/" className="hover:text-[#FF6B35] transition-colors font-medium">
             Home
           </Link>
         </li>
@@ -25,13 +25,13 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = "" 
           const isLast = index === items.length - 1;
           return (
             <li key={index} className="flex items-center gap-1.5">
-              <ChevronRight className="w-3.5 h-3.5 text-white/30 shrink-0" aria-hidden="true" />
+              <ChevronRight className="w-3.5 h-3.5 text-[#11111F]/30 shrink-0" aria-hidden="true" />
               {isLast || !item.href ? (
-                <span className="text-[#FFF7FA] font-medium" aria-current="page">
+                <span className="text-[#11111F] font-semibold" aria-current="page">
                   {item.label}
                 </span>
               ) : (
-                <Link to={item.href} className="hover:text-white transition-colors">
+                <Link to={item.href} className="hover:text-[#FF6B35] transition-colors font-medium">
                   {item.label}
                 </Link>
               )}

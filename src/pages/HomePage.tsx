@@ -5,7 +5,6 @@ import { SeoHead } from "../components/common/SeoHead";
 import { Button } from "../components/common/Button";
 import { HeroLogoInteractive } from "../components/common/HeroLogoInteractive";
 import { InfiniteMarquee } from "../components/common/InfiniteMarquee";
-import { VerifiedBrandStrip } from "../components/home/VerifiedBrandStrip";
 import { InteractiveServiceCard, ServiceCardData } from "../components/common/InteractiveServiceCard";
 import { UnlockPotentialSection } from "../components/home/UnlockPotentialSection";
 import { WhyChooseUsInteractive } from "../components/home/WhyChooseUsInteractive";
@@ -205,10 +204,7 @@ export const HomePage: React.FC = () => {
       {/* ---------------- 2. CONTINUOUS MOVING SERVICES MARQUEE ---------------- */}
       <InfiniteMarquee />
 
-      {/* ---------------- 3. VERIFIED BRAND / CLIENT TRUST STRIP ---------------- */}
-      <VerifiedBrandStrip />
-
-      {/* ---------------- 4. OUR SERVICES SECTION ---------------- */}
+      {/* ---------------- 3. OUR SERVICES SECTION ---------------- */}
       <section className="py-20 md:py-28 bg-[#FFF9F6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">

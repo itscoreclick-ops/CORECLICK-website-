@@ -11,6 +11,9 @@ import { AboutPage } from "./pages/AboutPage";
 import { ServicesOverviewPage } from "./pages/ServicesOverviewPage";
 import { ServiceDetailPage } from "./pages/ServiceDetailPage";
 import { PerformanceMarketingPage } from "./pages/PerformanceMarketingPage";
+import { SocialMediaMarketingPage } from "./pages/SocialMediaMarketingPage";
+import { SeoServicePage } from "./pages/SeoServicePage";
+import { WebsiteDevelopmentPage } from "./pages/WebsiteDevelopmentPage";
 import { WorkOverviewPage } from "./pages/WorkOverviewPage";
 import { CaseStudyDetailPage } from "./pages/CaseStudyDetailPage";
 import { BlogsOverviewPage } from "./pages/BlogsOverviewPage";
@@ -42,6 +45,12 @@ export default function App() {
           <Route path="/services" element={<ServicesOverviewPage />} />
           <Route path="/services/performance-marketing/" element={<PerformanceMarketingPage />} />
           <Route path="/services/performance-marketing" element={<PerformanceMarketingPage />} />
+          <Route path="/services/social-media-marketing/" element={<SocialMediaMarketingPage />} />
+          <Route path="/services/social-media-marketing" element={<SocialMediaMarketingPage />} />
+          <Route path="/services/seo/" element={<SeoServicePage />} />
+          <Route path="/services/seo" element={<SeoServicePage />} />
+          <Route path="/services/website-development/" element={<WebsiteDevelopmentPage />} />
+          <Route path="/services/website-development" element={<WebsiteDevelopmentPage />} />
           <Route path="/services/:slug/" element={<ServiceDetailPage />} />
           <Route path="/services/:slug" element={<ServiceDetailPage />} />
 

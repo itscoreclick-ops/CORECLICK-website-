@@ -72,10 +72,18 @@ export interface LeadSubmission {
   email?: string;
   businessName?: string;
   city?: string;
+  industry?: string;
   serviceInterestedIn?: string;
   websiteUrl?: string;
+  instagramProfile?: string;
+  targetKeywords?: string;
+  projectType?: string;
+  timeline?: string;
+  estimatedPages?: string;
+  budgetRange?: string;
   adBudget?: string;
   preferredPlatform?: string;
+  contentFrequency?: string;
   businessObjectives?: string;
   message?: string;
   submittedAt?: string;
