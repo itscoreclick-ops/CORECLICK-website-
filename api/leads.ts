@@ -47,8 +47,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       website_hp,
     } = body;
 
-    // 1. Anti-Spam Honeypot Check
+    // 1. Anti-Spam Honeypot Check (Silent Bot Trap)
     if (honeypot || _hp || website_hp) {
+      console.warn('[CoreClick Spam Guard] Bot submission detected via honeypot field. Discarding silently.');
       return res.status(200).json({
         success: true,
         leadId: `CC-BOT-${Date.now().toString(36).toUpperCase()}`,
@@ -56,7 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // 2. Validation
+    // 2. Server-Side Payload Validation
     const errors: Record<string, string> = {};
 
     if (!fullName || typeof fullName !== 'string' || fullName.trim().length < 2) {
@@ -82,13 +83,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
+    // 3. Verify Server Environment Variable RESEND_API_KEY
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim() === '' || apiKey === 'MY_RESEND_API_KEY') {
+      console.error('[Resend Error] RESEND_API_KEY environment variable is missing or invalid on server.');
+      return res.status(500).json({
+        success: false,
+        message: 'Server configuration error: RESEND_API_KEY is not set in environment variables.',
+      });
+    }
+
+    const recipient = process.env.NOTIFICATION_EMAIL || 'itscoreclick@gmail.com';
+    const fromEmail =
+      process.env.EMAIL_FROM ||
+      process.env.RESEND_FROM_EMAIL ||
+      'CoreClick Inquiries <leads@coreclick.in>';
+    const subject = 'New Business Enquiry – CoreClick Website';
+
     const leadId = `CC-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
     const submittedAt = new Date().toISOString();
-
-    const apiKey = process.env.RESEND_API_KEY;
-    const recipient = process.env.NOTIFICATION_EMAIL || 'itscoreclick@gmail.com';
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'CoreClick Leads <leads@coreclick.in>';
-    const subject = 'New Business Enquiry – CoreClick Website';
 
     // Format IST Date
     const formattedDate =
@@ -117,8 +130,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <div style="height: 8px; background: linear-gradient(90deg, #FF8A24 0%, #FF6038 50%, #FF087F 100%);"></div>
     <div style="padding: 32px 32px 24px; background: #FFF9F6; border-bottom: 1px solid #FFEBE1;">
       <span style="display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #FF6038; background: #FFF0E9; border: 1px solid rgba(255, 96, 56, 0.25); padding: 4px 12px; border-radius: 9999px; margin-bottom: 12px;">⚡ NEW BUSINESS ENQUIRY</span>
-      <h1 style="margin: 0 0 6px 0; font-size: 26px; font-weight: 800; color: #11121D; letter-spacing: -0.5px;">${fullName}</h1>
-      <p style="margin: 0; font-size: 14px; color: #65677A;">Enquiry for <strong>${service}</strong> &bull; ${business}</p>
+      <h1 style="margin: 0 0 6px 0; font-size: 26px; font-weight: 800; color: #11121D; letter-spacing: -0.5px;">${escapeHtml(fullName)}</h1>
+      <p style="margin: 0; font-size: 14px; color: #65677A;">Enquiry for <strong>${escapeHtml(service)}</strong> &bull; ${escapeHtml(business)}</p>
     </div>
 
     <div style="padding: 32px;">
@@ -127,41 +140,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; width: 38%; color: #727383; font-weight: 600;">Full Name</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; width: 62%; color: #11121D; font-weight: 700;">${fullName}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; width: 62%; color: #11121D; font-weight: 700;">${escapeHtml(fullName)}</td>
         </tr>
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Phone Number</td>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #FF6038; font-weight: 700;">
-            <a href="tel:${phone}" style="color: #FF6038; text-decoration: none;">${phone}</a>
+            <a href="tel:${escapeHtml(cleanPhone)}" style="color: #FF6038; text-decoration: none;">${escapeHtml(phone)}</a>
           </td>
         </tr>
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Email Address</td>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">
-            <a href="mailto:${email}" style="color: #11121D; text-decoration: underline;">${email}</a>
+            <a href="mailto:${escapeHtml(email)}" style="color: #11121D; text-decoration: underline;">${escapeHtml(email)}</a>
           </td>
         </tr>
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Business / Brand Name</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${business}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${escapeHtml(business)}</td>
         </tr>
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">City / Location</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${location}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${escapeHtml(location)}</td>
         </tr>
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Primary Service of Interest</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #FF087F; font-weight: 700;">${service}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #FF087F; font-weight: 700;">${escapeHtml(service)}</td>
         </tr>
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Estimated Monthly Budget</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${budget}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${escapeHtml(budget)}</td>
         </tr>
         ${
           projectType
             ? `<tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Project Type</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${projectType}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${escapeHtml(projectType)}</td>
         </tr>`
             : ''
         }
@@ -169,90 +182,85 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           timeline
             ? `<tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Timeline</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${timeline}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${escapeHtml(timeline)}</td>
         </tr>`
             : ''
         }
         <tr>
           <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #727383; font-weight: 600;">Submission Date and Time</td>
-          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${formattedDate}</td>
+          <td style="padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #F8F1EC; color: #11121D; font-weight: 700;">${escapeHtml(formattedDate)}</td>
         </tr>
       </table>
 
       <div style="background: #FFF9F6; border-left: 4px solid #FF6038; border-radius: 8px; padding: 16px 20px; margin-bottom: 28px;">
         <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FF6038; margin-bottom: 8px;">Project Details / Current Challenges</div>
-        <div style="margin: 0; font-size: 14px; color: #11121D; white-space: pre-wrap;">${projDetails}</div>
+        <div style="margin: 0; font-size: 14px; color: #11121D; white-space: pre-wrap;">${escapeHtml(projDetails)}</div>
       </div>
 
       <div style="background: #F8F9FA; border-radius: 12px; padding: 16px 20px; font-size: 12px; color: #65677A;">
-        <div><strong>Lead ID:</strong> ${leadId}</div>
-        <div><strong>Source URL:</strong> ${sourceUrl || 'CoreClick Website'}</div>
+        <div><strong>Lead ID:</strong> ${escapeHtml(leadId)}</div>
+        <div><strong>Source URL:</strong> ${escapeHtml(sourceUrl || 'CoreClick Website')}</div>
       </div>
     </div>
 
     <div style="padding: 24px 32px; background: #11121D; color: #A0A2B3; font-size: 12px; text-align: center;">
       <strong>CoreClick Digital Growth Agency</strong><br>
       D64/29 KA-1, Bank Colony, Sigra, Varanasi, Uttar Pradesh 221002<br>
-      <span style="display:inline-block; margin-top: 8px;">Sent to <strong>${recipient}</strong> &bull; Reply-To set to ${email}</span>
+      <span style="display:inline-block; margin-top: 8px;">Sent to <strong>${escapeHtml(recipient)}</strong> &bull; Reply-To set to ${escapeHtml(email)}</span>
     </div>
   </div>
 </body>
 </html>`;
 
-    let emailSent = false;
-    let emailErrorMsg = '';
+    // 4. Send Email via Official Resend SDK
+    const resend = new Resend(apiKey);
+    const emailResponse = await resend.emails.send({
+      from: fromEmail,
+      to: [recipient],
+      replyTo: email.trim(),
+      subject,
+      html: htmlContent,
+      text: `New Business Enquiry — CoreClick Website\n\nFull Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nBusiness: ${business}\nCity: ${location}\nService: ${service}\nBudget: ${budget}\nDetails: ${projDetails}\nSubmitted: ${formattedDate}`,
+    });
 
-    if (apiKey && apiKey !== 'MY_RESEND_API_KEY' && !apiKey.startsWith('re_123456789')) {
-      try {
-        const resend = new Resend(apiKey);
-        const emailResponse = await resend.emails.send({
-          from: fromEmail,
-          to: [recipient],
-          replyTo: email.trim(),
-          subject,
-          html: htmlContent,
-          text: `New Business Enquiry — CoreClick Website\n\nFull Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nBusiness: ${business}\nCity: ${location}\nService: ${service}\nBudget: ${budget}\nDetails: ${projDetails}\nSubmitted: ${formattedDate}`,
-        });
-
-        if (emailResponse.error) {
-          emailErrorMsg = emailResponse.error.message || 'Resend API returned an error.';
-          console.error('[Resend Vercel API Error]:', emailResponse.error);
-        } else {
-          emailSent = true;
-          console.log('[Resend Vercel Email Sent Successfully] ID:', emailResponse.data?.id);
-        }
-      } catch (err: unknown) {
-        emailErrorMsg = err instanceof Error ? err.message : String(err);
-        console.error('[Resend Vercel Exception]:', emailErrorMsg);
-      }
-    } else {
-      // Simulation mode if API key is missing or placeholder
-      console.log('=============================================================');
-      console.log('⚡ [CoreClick Vercel API Simulation Mode]');
-      console.log(`To: ${recipient}`);
-      console.log(`Reply-To: ${email}`);
-      console.log(`Subject: ${subject}`);
-      console.log(`Lead: ${fullName} | Phone: ${phone} | Service: ${service}`);
-      console.log('=============================================================');
-      emailSent = true;
+    // 5. Inspect Resend Error Object BEFORE Returning Success
+    if (emailResponse.error) {
+      console.error(
+        '[Resend Delivery Error]:',
+        emailResponse.error.name || 'APIError',
+        emailResponse.error.message || 'Resend error'
+      );
+      return res.status(502).json({
+        success: false,
+        message: `Email delivery failed: ${emailResponse.error.message}`,
+        error: emailResponse.error,
+      });
     }
+
+    console.log('[Resend Email Delivered Successfully] Message ID:', emailResponse.data?.id);
 
     return res.status(200).json({
       success: true,
       leadId,
-      message: 'Thank you! Your enquiry has been received by CoreClick.',
-      emailNotification: {
-        recipient,
-        status: emailSent ? 'SENT' : 'SIMULATED',
-        error: emailErrorMsg || undefined,
-      },
+      message: 'Thank you! Your enquiry has been received and forwarded to CoreClick.',
+      messageId: emailResponse.data?.id,
     });
   } catch (err: unknown) {
     const errMsg = err instanceof Error ? err.message : String(err);
     console.error('[Vercel API Exception]:', errMsg);
     return res.status(500).json({
       success: false,
-      message: 'Failed to process enquiry. Please call or WhatsApp us directly.',
+      message: `Failed to process enquiry: ${errMsg}`,
     });
   }
+}
+
+function escapeHtml(text?: string): string {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }

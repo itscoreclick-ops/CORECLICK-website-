@@ -105,15 +105,13 @@ export async function submitLead(formData: LeadSubmission): Promise<LeadResponse
         errors: errorData.errors,
       };
     }
-  } catch {
-    // Graceful offline/network fallback: Save locally and confirm to user
+  } catch (err: unknown) {
     saveLocalLeadBackup(payload);
-    lastSubmittedFingerprint = leadFingerprint;
-    lastSubmittedTime = now;
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    console.error("[CoreClick Lead Submission Network Error]:", errorMsg);
     return {
-      success: true,
-      message: "Enquiry received! Our team at CoreClick (Varanasi) will get in touch with you shortly.",
-      leadId: `LOCAL-${Date.now().toString(36).toUpperCase()}`,
+      success: false,
+      message: "Failed to connect to enquiry server. Please check your connection or contact us directly via phone or WhatsApp.",
     };
   }
 }

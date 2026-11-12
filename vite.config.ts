@@ -108,17 +108,17 @@ function leadsApiPlugin(): Plugin {
               };
 
               // 3. Automated Email Notification
-              let emailNotificationStatus = 'SIMULATED';
-              try {
-                const emailResult = await sendLeadNotificationEmail(leadRecord);
-                emailNotificationStatus = emailResult.success
-                  ? emailResult.simulated
-                    ? 'SIMULATED'
-                    : 'SENT'
-                  : 'FAILED';
-              } catch (emailErr) {
-                console.error('[Dev Leads API] Email dispatch error:', emailErr);
-                emailNotificationStatus = 'ERROR';
+              const emailResult = await sendLeadNotificationEmail(leadRecord);
+              if (!emailResult.success) {
+                console.error('[Dev Leads API] Resend email delivery failed:', emailResult.error);
+                res.writeHead(502, { 'Content-Type': 'application/json' });
+                res.end(
+                  JSON.stringify({
+                    success: false,
+                    message: `Failed to deliver email notification: ${emailResult.error || 'Resend error'}`,
+                  })
+                );
+                return;
               }
 
               inMemoryLeads.unshift(leadRecord);
@@ -131,7 +131,7 @@ function leadsApiPlugin(): Plugin {
                   message: 'Enquiry confirmed. CoreClick strategists will reach out to you within 24 hours.',
                   emailNotification: {
                     recipient: NOTIFICATION_RECIPIENT,
-                    status: emailNotificationStatus,
+                    status: 'SENT',
                   },
                 })
               );

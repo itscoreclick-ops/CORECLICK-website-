@@ -164,33 +164,31 @@ app.post('/api/leads', async (req: Request, res: Response): Promise<void> => {
   };
 
   // 4. Automated Email Notification to itscoreclick@gmail.com
-  let emailResult: { success: boolean; simulated?: boolean; recipient: string; error?: string } = {
-    success: false,
-    simulated: false,
-    recipient: NOTIFICATION_RECIPIENT,
-  };
-  try {
-    emailResult = await sendLeadNotificationEmail(newLead);
-    newLead.emailStatus = emailResult.success ? (emailResult.simulated ? 'SIMULATED' : 'SENT') : 'FAILED';
-  } catch (err: unknown) {
-    console.error('[CoreClick Lead Notification Email Error]:', err);
-    newLead.emailStatus = 'ERROR';
+  const emailResult = await sendLeadNotificationEmail(newLead);
+  if (!emailResult.success) {
+    console.error('[CoreClick Lead Notification Email Failed]:', emailResult.error);
+    res.status(502).json({
+      success: false,
+      message: `Failed to deliver email notification: ${emailResult.error || 'Resend delivery failed'}`,
+    });
+    return;
   }
 
+  newLead.emailStatus = 'SENT';
   leadsBuffer.unshift(newLead);
   if (leadsBuffer.length > 500) leadsBuffer.pop();
 
   console.log(
-    `[CoreClick Lead Received] ID: ${leadId} | Name: ${newLead.fullName} | Phone: ${newLead.phone} | Service: ${newLead.serviceInterestedIn} | EmailStatus: ${newLead.emailStatus}`
+    `[CoreClick Lead Received] ID: ${leadId} | Name: ${newLead.fullName} | Phone: ${newLead.phone} | Service: ${newLead.serviceInterestedIn}`
   );
 
   res.status(200).json({
     success: true,
     leadId,
-    message: 'Thank you! Your enquiry has been safely received by CoreClick.',
+    message: 'Thank you! Your enquiry has been safely received and forwarded to CoreClick.',
     emailNotification: {
       recipient: NOTIFICATION_RECIPIENT,
-      status: newLead.emailStatus,
+      status: 'SENT',
     },
   });
 });

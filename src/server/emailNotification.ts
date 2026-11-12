@@ -2,7 +2,10 @@ import { Resend } from 'resend';
 import { LeadSubmission } from '../types/index.ts';
 
 export const NOTIFICATION_RECIPIENT = process.env.NOTIFICATION_EMAIL || 'itscoreclick@gmail.com';
-export const DEFAULT_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'CoreClick Leads <onboarding@resend.dev>';
+export const DEFAULT_FROM_EMAIL =
+  process.env.EMAIL_FROM ||
+  process.env.RESEND_FROM_EMAIL ||
+  'CoreClick Inquiries <leads@coreclick.in>';
 
 export interface SendEmailResult {
   success: boolean;
@@ -38,6 +41,16 @@ function formatISTDate(dateString?: string): string {
   } catch {
     return date.toISOString();
   }
+}
+
+function escapeHtml(text?: string): string {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 /**
@@ -433,26 +446,13 @@ export async function sendLeadNotificationEmail(lead: LeadSubmission): Promise<S
   const recipient = NOTIFICATION_RECIPIENT;
   const subject = `⚡ New Lead: ${lead.fullName} – ${lead.serviceInterestedIn || 'General Enquiry'} (${lead.businessName || 'Direct'})`;
 
-  // Check if Resend API key is configured or is a placeholder
-  if (
-    !apiKey ||
-    apiKey === 'MY_RESEND_API_KEY' ||
-    apiKey.startsWith('re_123456789') ||
-    apiKey.trim() === ''
-  ) {
-    console.log('\n=============================================================');
-    console.log('⚡ [CoreClick Email Dispatch — Simulation Mode]');
-    console.log(`To: ${recipient}`);
-    console.log(`Reply-To: ${lead.email || 'N/A'}`);
-    console.log(`Subject: ${subject}`);
-    console.log(`Lead: ${lead.fullName} (${lead.phone}) | Email: ${lead.email} | Service: ${lead.serviceInterestedIn}`);
-    console.log('=============================================================\n');
-
+  // Check if Resend API key is configured
+  if (!apiKey || apiKey === 'MY_RESEND_API_KEY' || apiKey.trim() === '') {
+    console.error('[Resend Error] RESEND_API_KEY environment variable is not configured.');
     return {
-      success: true,
-      simulated: true,
+      success: false,
       recipient,
-      messageId: `SIM-${Date.now().toString(36).toUpperCase()}`,
+      error: 'RESEND_API_KEY environment variable is missing on server.',
     };
   }
 
@@ -478,7 +478,7 @@ export async function sendLeadNotificationEmail(lead: LeadSubmission): Promise<S
       text,
     };
 
-    // If valid email provided, set Reply-To to visitor's email
+    // Set Reply-To to visitor's email
     if (lead.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email.trim())) {
       emailPayload.replyTo = lead.email.trim();
     }
@@ -486,16 +486,15 @@ export async function sendLeadNotificationEmail(lead: LeadSubmission): Promise<S
     const response = await resend.emails.send(emailPayload);
 
     if (response.error) {
-      console.error('[CoreClick Email Dispatch Error via Resend - Fallback to Simulation]:', response.error);
+      console.error('[Resend API Delivery Error]:', response.error.name || 'Error', response.error.message);
       return {
-        success: true,
-        simulated: true,
+        success: false,
         recipient,
-        messageId: `SIM-FB-${Date.now().toString(36).toUpperCase()}`,
+        error: response.error.message || 'Resend API returned an error.',
       };
     }
 
-    console.log(`[CoreClick Email Dispatched Successfully] ID: ${response.data?.id} to ${recipient}`);
+    console.log(`[Resend Email Dispatched Successfully] ID: ${response.data?.id} to ${recipient}`);
     return {
       success: true,
       simulated: false,
@@ -504,22 +503,11 @@ export async function sendLeadNotificationEmail(lead: LeadSubmission): Promise<S
     };
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    console.error('[CoreClick Email Dispatch Exception - Fallback to Simulation]:', errorMessage);
+    console.error('[Resend Email Exception]:', errorMessage);
     return {
-      success: true,
-      simulated: true,
+      success: false,
       recipient,
-      messageId: `SIM-EX-${Date.now().toString(36).toUpperCase()}`,
+      error: errorMessage,
     };
   }
-}
-
-function escapeHtml(text?: string): string {
-  if (!text) return '';
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
 }
