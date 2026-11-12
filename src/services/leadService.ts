@@ -8,9 +8,9 @@ export function validateIndianPhone(phone: string): boolean {
   return indianPhoneRegex.test(cleanPhone);
 }
 
-// Standard email validation
+// Standard email validation (mandatory)
 export function validateEmail(email: string): boolean {
-  if (!email.trim()) return true; // Optional field unless configured
+  if (!email || !email.trim()) return false;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email.trim());
 }
@@ -45,7 +45,7 @@ export async function submitLead(formData: LeadSubmission): Promise<LeadResponse
     errors.phone = "Please enter a valid 10-digit Indian phone number (e.g., 8707414150).";
   }
 
-  if (formData.email && !validateEmail(formData.email)) {
+  if (!formData.email || !validateEmail(formData.email)) {
     errors.email = "Please enter a valid email address.";
   }
 

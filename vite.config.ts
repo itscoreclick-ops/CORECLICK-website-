@@ -55,11 +55,9 @@ function leadsApiPlugin(): Plugin {
                 errors.phone = 'Valid 10-digit Indian phone number required (e.g. 8707414150).';
               }
 
-              if (data.email && typeof data.email === 'string' && data.email.trim().length > 0) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(data.email.trim())) {
-                  errors.email = 'Please provide a valid email format.';
-                }
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!data.email || typeof data.email !== 'string' || !emailRegex.test(data.email.trim())) {
+                errors.email = 'Please provide a valid email address.';
               }
 
               if (Object.keys(errors).length > 0) {

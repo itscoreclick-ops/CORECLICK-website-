@@ -99,11 +99,9 @@ app.post('/api/leads', async (req: Request, res: Response): Promise<void> => {
     errors.phone = 'Please provide a valid 10-digit Indian phone number (e.g., 8707414150).';
   }
 
-  if (email && typeof email === 'string' && email.trim().length > 0) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      errors.email = 'Please provide a valid email format.';
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || typeof email !== 'string' || !emailRegex.test(email.trim())) {
+    errors.email = 'Please provide a valid email address.';
   }
 
   if (Object.keys(errors).length > 0) {

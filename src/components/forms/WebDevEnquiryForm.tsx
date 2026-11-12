@@ -112,7 +112,7 @@ export const WebDevEnquiryForm: React.FC = () => {
       if (!cleanPhone || !phoneRegex.test(cleanPhone)) {
         newErrors.phone = "Please enter a valid 10-digit Indian phone number (e.g. 8707414150).";
       }
-      if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
         newErrors.email = "Please enter a valid email address.";
       }
     }
@@ -378,7 +378,7 @@ export const WebDevEnquiryForm: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-[#11111F] uppercase tracking-wider mb-1.5">
-                    Email Address <span className="text-[#73778A] font-normal">(For Proposal)</span>
+                    Email Address <span className="text-[#FF286B]">*</span>
                   </label>
                   <input
                     type="email"

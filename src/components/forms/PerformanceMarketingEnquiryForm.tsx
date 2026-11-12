@@ -90,6 +90,12 @@ export const PerformanceMarketingEnquiryForm: React.FC = () => {
       return;
     }
 
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      setActiveStep(1);
+      setErrors({ email: "Please enter a valid email address." });
+      return;
+    }
+
     setIsLoading(true);
 
     // Combine objective and budget into message notes for transparency
@@ -341,17 +347,23 @@ export const PerformanceMarketingEnquiryForm: React.FC = () => {
                     htmlFor="email"
                     className="block text-xs font-extrabold text-[#11121D] uppercase tracking-wider mb-1.5"
                   >
-                    Work Email <span className="text-[#727383] font-normal lowercase">(optional)</span>
+                    Email Address <span className="text-[#FF087F]">*</span>
                   </label>
                   <input
                     type="email"
                     id="email"
                     name="email"
+                    required
                     placeholder="you@company.com"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl text-sm border border-[#11121D]/20 bg-[#FFF9F6] text-[#11121D] placeholder:text-[#727383]/50 hover:border-[#11121D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6038]"
+                    className={`w-full px-4 py-3 rounded-xl text-sm border bg-[#FFF9F6] text-[#11121D] placeholder:text-[#727383]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6038] ${
+                      errors.email ? "border-rose-500 bg-rose-50" : "border-[#11121D]/20 hover:border-[#11121D]"
+                    }`}
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-rose-600 font-medium">{errors.email}</p>
+                  )}
                 </div>
               </div>
 
@@ -365,6 +377,10 @@ export const PerformanceMarketingEnquiryForm: React.FC = () => {
                     }
                     if (!formData.phone.trim()) {
                       setErrors({ phone: "Please enter your phone number." });
+                      return;
+                    }
+                    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+                      setErrors({ email: "Please enter a valid email address." });
                       return;
                     }
                     setActiveStep(2);

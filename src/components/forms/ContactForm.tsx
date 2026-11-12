@@ -266,12 +266,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 htmlFor="email"
                 className="block text-xs font-extrabold text-[#111321] uppercase tracking-wider mb-1.5"
               >
-                Work Email <span className="text-[#727383] font-normal lowercase">(optional)</span>
+                Email Address <span className="text-[#FF087F]">*</span>
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
+                required
                 autoComplete="email"
                 placeholder="you@company.com"
                 value={formData.email}
